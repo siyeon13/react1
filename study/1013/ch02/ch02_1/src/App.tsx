@@ -4,6 +4,9 @@ import './App.css';
 import Profile from "./components/Profile";
 import Demo from "./components/Demo";
 import EventListener from './pages/EventListener';
+import Greeting from './components/Greeting';
+import Home from './pages/Home';
+
 
 const children = [
   <li>
@@ -26,6 +29,15 @@ const children = [
 function App() {
   return (
     <ul>
+      <li>
+        <Home />
+      </li>
+      <li>
+        <Greeting name={'홍길동'} age={20} />
+      </li>
+      <li>
+        <Greeting name="지민" />
+      </li>
       <li>
         <EventListener />
       </li>
