@@ -6,15 +6,18 @@ import reportWebVitals from "./reportWebVitals";
 import "@fontsource/material-icons";
 import RoutesSetup from "./routes/RoutesSetup";
 import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <RoutesSetup />
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <RoutesSetup />
+      </BrowserRouter>
+    </AuthProvider>
   </React.StrictMode>
 );
 
