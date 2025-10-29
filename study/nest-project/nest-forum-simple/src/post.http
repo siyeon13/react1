@@ -1,0 +1,6 @@
+# @server = http://localhost:3000
+
+# # 게시글 조회
+# GET {{server}}/post
+
+# GET {{server}}/
