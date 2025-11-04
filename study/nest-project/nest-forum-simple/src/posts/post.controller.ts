@@ -46,7 +46,7 @@ export class PostController {
 
   // 수정
   @Post(':id')
-  @Redirect()
+  @Redirect('/posts')
   async update(@Param('id') id: string, @Body() dto: UpdatePostDto) {
     await this.postsService.update(id, dto);
   }

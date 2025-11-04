@@ -3,6 +3,8 @@ import { AppModule } from './app.module';
 import { join } from 'path';
 //import * as hbs from 'hbs';
 import hbs from 'hbs';
+import { TransformDateInterceptor } from './common/interceptors/transform-date.interceptor';
+import { formatDate } from './common/utils/date-format';
 //import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
@@ -15,10 +17,16 @@ async function bootstrap() {
   //app.setViewEngine('handlebars');
   //hbs.registerPartials(join(__dirname, '..', 'views', 'partials'));
 
+  app.useGlobalInterceptors(new TransformDateInterceptor());
+
   hbs.registerHelper('inc', (v) => Number(v) + 1);
   hbs.registerHelper('dec', (v) => Number(v) - 1);
   hbs.registerHelper('gt', (a, b) => Number(a) > Number(b));
   hbs.registerHelper('lt', (a, b) => Number(a) < Number(b));
+
+  hbs.registerHelper('dateFormat', (value) => {
+    return formatDate(value);
+  });
 
   await app.listen(process.env.PORT ?? 3000);
   console.log(`http://localhost:${process.env.PORT || 3000}`);
