@@ -11,6 +11,11 @@ export default function UseMemoExample() {
     return count * 1000;
   }, [count]);
 
+  /* const expensiveValue = () => {
+    console.log("복잡한 계산 중,.");
+    return count * 1000;
+  }; */
+
   return (
     <div className="p-4 space-y-3">
       <h2 className="text-xl font-bold">useMemo 예제</h2>

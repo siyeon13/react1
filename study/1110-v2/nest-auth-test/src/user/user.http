@@ -1,0 +1,38 @@
+### Create
+@server = http://localhost:3000/user
+POST {{server}}/create
+Content-Type: application/json
+
+{
+    "username": "tally",
+    "password": "1111",
+    "email": "tally@abc.com"
+}
+
+### Get user
+GET {{server}}/getUser/ally@abc.com
+
+### update
+PUT {{server}}/update/ally@abc.com
+Content-Type: application/json
+
+{
+    "email": "tally@abc.com",
+    "username": "tally",
+    "password": "1111"
+}
+
+### delete
+DELETE {{server}}/delete/elly2@abc.com
+
+### getAllUser
+GET {{server}}/getAllUser
+
+### Login
+POST {{server}}/login
+Content-Type: application/json
+
+{
+    "email": "tally@abc.com",
+    "password": "1111"
+}
