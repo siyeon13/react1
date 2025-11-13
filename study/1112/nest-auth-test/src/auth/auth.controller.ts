@@ -1,13 +1,16 @@
 import {
-  Body,
   Controller,
-  Param,
   Post,
-  Request,
-  Response,
+  Body,
+  // Request,
+  Req,
+  // Response,
+  Res,
   UseGuards,
   Get,
 } from '@nestjs/common';
+import type { Response as ExpressResponse } from 'express';
+import type { Request as ExpressRequest } from 'express';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from 'src/user/user.dto';
 import {
@@ -16,6 +19,8 @@ import {
   AuthenticatedGuard,
   GoogleAuthGuard,
 } from './auth.guard';
+import { LoginDto } from 'src/user/user.dto';
+import { User } from 'src/user/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -26,25 +31,27 @@ export class AuthController {
     return this.authService.register(userDto);
   }
 
-  @Post('/login')
-  async login(@Request() req, @Response() res) {
+  @Post('login')
+  async login(@Body() loginDto: LoginDto, @Res() res: ExpressResponse) {
     const userInfo = await this.authService.validateUser(
-      req.body.email,
-      req.body.password,
+      loginDto.email,
+      loginDto.password,
     );
+
     if (userInfo) {
       res.cookie('login', JSON.stringify(userInfo), {
         httpOnly: false,
-        maxAge: 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 7days
       });
+    } else {
+      console.log('not match password');
     }
-
     return res.send({ message: 'login success' });
   }
 
   @UseGuards(LoginGard)
   @Post('/login2')
-  async login2(@Request() req, @Response() res) {
+  login2(@Req() req: ExpressRequest, @Res() res: ExpressResponse) {
     if (!req.cookies['login'] && req.user) {
       res.cookie('login', JSON.stringify(req.user), {
         httpOnly: true,
@@ -63,24 +70,27 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login3')
-  login3(@Request() req) {
+  login3(@Req() req: ExpressRequest) {
     return req.user;
   }
 
   @UseGuards(AuthenticatedGuard)
   @Get('test-guard2')
-  testGuardWithSession(@Request() req) {
+  testGuardWithSession(@Req() req: ExpressRequest) {
     return req.user;
   }
 
   @Get('to-google')
   @UseGuards(GoogleAuthGuard)
-  async googleAuth(@Request() req) {}
+  googleAuth(@Req() req) {
+    console.log(req);
+  }
 
+  //(구글콘솔드라이브)승인된 리디렉션 URI : http://localhost:3000/auth/google
   @Get('google')
   @UseGuards(GoogleAuthGuard)
-  async googleAuthRedirect(@Request() req, @Response() res) {
-    const { user } = req;
-    return res.sen;
+  googleAuthRedirect(@Body() user: User, @Res() res: ExpressResponse) {
+    console.log(user);
+    return res.send(user);
   }
 }
