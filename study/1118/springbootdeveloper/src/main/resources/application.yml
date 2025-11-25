@@ -1,0 +1,26 @@
+spring:
+  sql:
+    init:
+      mode: never
+  jpa:
+    show-sql: true
+    properties:
+      format_sql: true
+    defer-datasource-initialization: true
+
+    # mysql setting 세팅해주는 부분
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/ktcloud?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+#    username: root
+#    password: rootroot
+##    console:
+##      enabled: true
+
+# h2 setting 세팅해주는 부분
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+  h2:
+    console:
+      enabled: true
